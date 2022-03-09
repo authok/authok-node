@@ -44,7 +44,7 @@ var authok = new AuthenticationClient({
 
 The Authok Management API is meant to be used by back-end servers or trusted parties performing administrative tasks. Generally speaking, anything that can be done through the Authok dashboard (and more) can also be done through this API.
 
-Initialize your client class with an API v1 token and a domain.
+用 token 和 域名初始化.
 
 ```js
 var ManagementClient = require('authok').ManagementClient;
