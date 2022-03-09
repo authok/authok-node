@@ -1,0 +1,80 @@
+version: 2.1
+orbs:
+  ship: authok/ship@0.3.1
+jobs:
+  build-and-test:
+    parameters:
+      node-version:
+        type: string
+        default: "12"
+    docker:
+      - image: circleci/node:<< parameters.node-version >>
+    environment:
+      LANG: en_US.UTF-8
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --ignore-engines
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - when:
+          condition:
+            # ESLint has dropped support for version 8 and 10.
+            and:
+              - not:
+                  equal: [ "8", << parameters.node-version >> ]
+              - not:
+                  equal: [ "10", << parameters.node-version >> ]
+          steps:
+            - run:
+                name: ESLint
+                command: yarn lint
+      - when:
+          condition:
+            # mocha@>=6 doesn't support node 8 so we use mocha@6 with npx to run the tests
+            equal: ["8", << parameters.node-version >>]
+          steps:
+            - run:
+                name: Tests
+                command: "npx mocha@6 --reporter spec './test/**/*.tests.js'"
+      - when:
+          condition:
+            and:
+              - not:
+                  equal: ["8", << parameters.node-version >>]
+          steps:
+            - run:
+                name: Tests
+                command: yarn test:ci
+      - when:
+          condition:
+            equal: [ "12", << parameters.node-version >> ]
+          steps:
+            - run:
+                name: Generate Coverage
+                command: yarn test:coverage
+workflows:
+  build-test-report:
+    jobs:
+      - build-and-test:
+          matrix:
+            parameters:
+              node-version: ["8", "10", "12", "14", "16"]
+      - ship/node-publish:
+          pkg-manager: yarn
+          requires:
+            - build-and-test
+          context:
+            - publish-npm
+            - publish-gh
+          filters:
+            branches:
+              only:
+                - master
