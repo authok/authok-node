@@ -473,7 +473,7 @@ class AuthenticationClient {
    * </caption>
    *
    * authok.clientCredentialsGrant({
-   *   audience: 'https://tenant.authok.cn/api/v1/',
+   *   audience: 'https://tenant.cn.authok.cn/api/v1',
    *   scope: 'read:users update:users'
    * }, function (err, response) {
    *   if (err) {

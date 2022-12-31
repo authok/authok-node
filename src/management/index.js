@@ -36,7 +36,7 @@ const ActionsManager = require('./ActionsManager');
 const OrganizationsManager = require('./OrganizationsManager');
 
 const BASE_URL_FORMAT = 'https://%s/api/v1';
-const MANAGEMENT_API_AUD_FORMAT = 'https://%s/api/v1/';
+const MANAGEMENT_API_AUD_FORMAT = 'https://%s/api/v1';
 
 /**
  * Management API SDK.
@@ -67,7 +67,7 @@ const MANAGEMENT_API_AUD_FORMAT = 'https://%s/api/v1/';
  *   clientId: '{YOUR_NON_INTERACTIVE_CLIENT_ID}',
  *   clientSecret: '{YOUR_NON_INTERACTIVE_CLIENT_SECRET}',
  *   scope: "read:users write:users",
- *   audience: 'https://{YOUR_TENANT_NAME}.authok.cn/api/v1/',
+ *   audience: 'https://{YOUR_TENANT_NAME}.authok.cn/api/v1',
  *   tokenProvider: {
  *    enableCache: true,
  *    cacheTTLInSeconds: 10
@@ -83,7 +83,7 @@ class ManagementClient {
    * @param   {string}  [options.token]                             API access token.
    * @param   {string}  [options.clientId]                          Management API Non Interactive Client Id.
    * @param   {string}  [options.clientSecret]                      Management API Non Interactive Client Secret.
-   * @param   {string}  [options.audience]                          Management API Audience. By default is your domain's, e.g. the domain is `tenant.authok.com` and the audience is `http://tenant.authok.com/api/v1/`
+   * @param   {string}  [options.audience]                          Management API Audience. By default is your domain's, e.g. the domain is `tenant.authok.com` and the audience is `http://tenant.authok.com/api/v1`
    * @param   {string}  [options.scope]                             Management API Scopes.
    * @param   {boolean} [options.tokenProvider.enableCache=true]    Enabled or Disable Cache.
    * @param   {number}  [options.tokenProvider.cacheTTLInSeconds]   By default the `expires_in` value will be used to determine the cached time of the token, this can be overridden.

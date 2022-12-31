@@ -1,6 +1,6 @@
 {
   "name": "@authok/authok-node",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "SDK for Authok API",
   "main": "src/index.js",
   "sideEffects": false,
